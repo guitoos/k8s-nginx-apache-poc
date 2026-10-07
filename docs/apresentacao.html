@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Apresentacao - Web Solutions Kubernetes POC</title>
+<style>
+  @page { size: A4; margin: 1.8cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  section {
+    page-break-after: always;
+    min-height: 24cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  section.top { justify-content: flex-start; }
+  section:last-of-type { page-break-after: auto; }
+
+  .cover { text-align: center; }
+  .cover .kicker {
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #64748b;
+    font-size: 11pt;
+    margin-bottom: 1.2em;
+  }
+  .cover h1 {
+    font-size: 27pt;
+    color: #0f172a;
+    margin: 0 0 0.4em 0;
+  }
+  .cover h2 {
+    font-size: 14pt;
+    font-weight: normal;
+    color: #334155;
+    margin-bottom: 2.5em;
+  }
+  .cover .meta {
+    margin-top: 3em;
+    font-size: 11pt;
+    color: #475569;
+  }
+  .cover .badges {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  .cover .badge {
+    border: 1.5px solid #0c4a6e;
+    color: #0c4a6e;
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 10.5pt;
+    font-weight: bold;
+  }
+
+  h2.title {
+    font-size: 19pt;
+    color: #0c4a6e;
+    border-bottom: 2px solid #0c4a6e;
+    padding-bottom: 6px;
+    margin-bottom: 0.9em;
+  }
+  .slide-num {
+    position: absolute;
+    bottom: 1cm;
+    right: 1.8cm;
+    font-size: 9pt;
+    color: #94a3b8;
+  }
+  p { text-align: justify; margin: 0.5em 0; }
+  ul, ol { margin: 0.4em 0 0.4em 1.3em; }
+  li { margin-bottom: 0.45em; text-align: justify; }
+  strong { color: #0c4a6e; }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 1.2em;
+  }
+  .pain-card {
+    border: 1px solid #dbeafe;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .pain-card .n { font-size: 20pt; color: #0c4a6e; font-weight: bold; }
+  .pain-card p { font-size: 10.5pt; margin: 0.3em 0 0 0; }
+
+  .arch {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 1.6em 0;
+  }
+  .arch-box {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 18px 26px;
+    text-align: center;
+    width: 200px;
+  }
+  .arch-box.nginx { border-color: #0284c7; background: #f0f9ff; }
+  .arch-box.apache { border-color: #d97706; background: #fffbeb; }
+  .arch-box .name { font-size: 14pt; font-weight: bold; }
+  .arch-box .port { font-size: 11pt; margin-top: 6px; color: #444; }
+  .arch-cluster {
+    border: 2px dashed #64748b;
+    border-radius: 12px;
+    padding: 24px 30px;
+    margin: 1em auto;
+    width: fit-content;
+  }
+  .arch-cluster .label {
+    text-align: center;
+    font-size: 10.5pt;
+    color: #64748b;
+    margin-bottom: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .shot {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 1em;
+  }
+  .shot img {
+    max-width: 100%;
+    max-height: 9.5cm;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+  }
+  .shot .missing {
+    display: none;
+    padding: 3cm 1cm;
+    color: #94a3b8;
+    border: 2px dashed #cbd5e1;
+    border-radius: 6px;
+    font-size: 11pt;
+  }
+  .shot .caption {
+    margin-top: 8px;
+    font-size: 10.5pt;
+    color: #475569;
+  }
+  .url {
+    display: inline-block;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 10.5pt;
+  }
+
+  table.benefits {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.2em;
+    font-size: 10.5pt;
+  }
+  table.benefits th, table.benefits td {
+    border: 1px solid #cbd5e1;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.benefits th { background: #0c4a6e; color: white; }
+  table.benefits tr:nth-child(even) td { background: #f8fafc; }
+
+  .closing { text-align: center; }
+  .closing h2.title { border: none; text-align: center; }
+  .closing .thanks { font-size: 20pt; color: #0c4a6e; margin: 1em 0 0.3em 0; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="cover">
+  <div class="kicker">Prova de Conceito &mdash; Orquestração de Containers</div>
+  <h1>Web Solutions Ltda.</h1>
+  <h2>Migrando de VMs para Kubernetes: Nginx e Apache HTTPD coexistindo em um único cluster</h2>
+  <div class="badges">
+    <div class="badge">Docker</div>
+    <div class="badge">Kubernetes</div>
+    <div class="badge">Nginx :8080</div>
+    <div class="badge">Apache HTTPD :8081</div>
+  </div>
+  <div class="meta">
+    Guilherme Oliveira<br>
+    Orquestração de Containers com Kubernetes: Desafios e Soluções no Mundo Real
+  </div>
+</section>
+
+<!-- O PROBLEMA -->
+<section class="top">
+  <h2 class="title">1. O Problema</h2>
+  <p>
+    A Web Solutions Ltda., empresa de desenvolvimento e hospedagem de aplicações web sediada em
+    Taboão, São Paulo, viu sua demanda crescer exponencialmente nos últimos meses. O modelo atual
+    de hospedagem &mdash; cada aplicação implantada diretamente em uma máquina virtual dedicada
+    &mdash; não acompanha mais esse ritmo.
+  </p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="n">01</div>
+      <p><strong>Alocação de recursos inflexível.</strong> Cada VM reserva CPU/memória de forma
+      fixa, mesmo quando a aplicação está ociosa.</p>
+    </div>
+    <div class="pain-card">
+      <div class="n">02</div>
+      <p><strong>Escalabilidade manual e lenta.</strong> Atender picos de demanda depende de
+      intervenção humana, atrasando a resposta ao cliente.</p>
+    </div>
+    <div class="pain-card">
+      <div class="n">03</div>
+      <p><strong>Conflitos de dependência.</strong> Ambientes divididos entre aplicações geram
+      dores de cabeça constantes para a equipe de operações.</p>
+    </div>
+  </div>
+  <p style="margin-top:1.4em">
+    O resultado direto: tempo de resposta lento para novas implantações e atualizações,
+    impactando a agilidade da empresa e a satisfação dos clientes.
+  </p>
+</section>
+
+<!-- A SOLUCAO -->
+<section class="top">
+  <h2 class="title">2. A Solução Proposta</h2>
+  <p>
+    A resposta a esses três problemas é a <strong>conteinerização com Docker</strong> combinada
+    à <strong>orquestração com Kubernetes</strong>:
+  </p>
+  <ul>
+    <li><strong>Docker</strong> empacota cada aplicação com exatamente as dependências que ela
+      precisa, eliminando conflitos entre ambientes e tornando a aplicação portátil entre
+      máquinas.</li>
+    <li><strong>Kubernetes</strong> substitui o gerenciamento manual por um modelo declarativo:
+      descrevemos o estado desejado (quantas réplicas, quanta CPU/memória, em qual porta) e o
+      cluster mantém esse estado automaticamente &mdash; recriando containers que falham e
+      permitindo escalar sob demanda com um único comando.</li>
+  </ul>
+  <p>
+    Como prova de conceito, esta solução implanta <strong>dois servidores web independentes no
+    mesmo cluster</strong> &mdash; Nginx e Apache HTTPD &mdash; demonstrando que aplicações
+    diferentes podem compartilhar a mesma infraestrutura sem conflito, cada uma acessível em sua
+    própria porta.
+  </p>
+</section>
+
+<!-- ARQUITETURA -->
+<section class="top">
+  <h2 class="title">3. Arquitetura da Solução</h2>
+  <p>Cada serviço roda em seu próprio <em>Deployment</em> (2 réplicas) e é exposto por um
+  <em>Service</em> dedicado, dentro do namespace <code>web-solutions</code>:</p>
+  <div class="arch-cluster">
+    <div class="label">Cluster Kubernetes &mdash; namespace web-solutions</div>
+    <div class="arch">
+      <div class="arch-box nginx">
+        <div class="name">Nginx</div>
+        <div class="port">Deployment (2 réplicas)<br>Service → porta <strong>8080</strong></div>
+      </div>
+      <div class="arch-box apache">
+        <div class="name">Apache HTTPD</div>
+        <div class="port">Deployment (2 réplicas)<br>Service → porta <strong>8081</strong></div>
+      </div>
+    </div>
+  </div>
+  <ul>
+    <li>Imagens Docker próprias, baseadas em <code>nginx:1.27-alpine</code> e
+      <code>httpd:2.4-alpine</code> &mdash; leves e com baixa superfície de ataque.</li>
+    <li>Cada container já escuta internamente na porta exigida (8080/8081), replicando o mesmo
+      comportamento em qualquer ambiente.</li>
+    <li>Readiness/liveness probes garantem que o Kubernetes só envie tráfego a containers
+      saudáveis, reiniciando automaticamente os que falharem.</li>
+    <li>HPA (HorizontalPodAutoscaler) preparado para escalar cada serviço de forma independente
+      conforme a carga de CPU.</li>
+  </ul>
+</section>
+
+<!-- DEMO NGINX -->
+<section class="top">
+  <h2 class="title">4. Demonstração &mdash; Nginx</h2>
+  <p>Serviço acessível em <span class="url">http://localhost:8080</span>, servido pelo Deployment
+  <code>nginx-deployment</code> através do Service <code>nginx-service</code> (LoadBalancer).</p>
+  <div class="shot">
+    <img src="screenshots/nginx.png" alt="Print do Nginx rodando na porta 8080"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+    <div class="missing">[ Print do navegador em http://localhost:8080 &mdash; salve o arquivo
+      como <code>docs/screenshots/nginx.png</code> ]</div>
+    <div class="caption">Nginx respondendo com HTTP 200 na porta 8080, dentro do cluster Kubernetes local.</div>
+  </div>
+</section>
+
+<!-- DEMO APACHE -->
+<section class="top">
+  <h2 class="title">5. Demonstração &mdash; Apache HTTPD</h2>
+  <p>Serviço acessível em <span class="url">http://localhost:8081</span>, servido pelo Deployment
+  <code>apache-deployment</code> através do Service <code>apache-service</code> (LoadBalancer).</p>
+  <div class="shot">
+    <img src="screenshots/apache.png" alt="Print do Apache rodando na porta 8081"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+    <div class="missing">[ Print do navegador em http://localhost:8081 &mdash; salve o arquivo
+      como <code>docs/screenshots/apache.png</code> ]</div>
+    <div class="caption">Apache HTTPD respondendo com HTTP 200 na porta 8081, coexistindo com o Nginx no mesmo cluster.</div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="top">
+  <h2 class="title">6. Benefícios Entregues</h2>
+  <table class="benefits">
+    <tr><th>Problema relatado pela Web Solutions</th><th>Como a solução resolve</th></tr>
+    <tr>
+      <td>Alocação de recursos inflexível</td>
+      <td><code>resources.requests/limits</code> definidos por serviço, compartilhando o mesmo
+        cluster sem um consumir os recursos do outro.</td>
+    </tr>
+    <tr>
+      <td>Escalabilidade manual e lenta</td>
+      <td><code>kubectl scale</code> ajusta réplicas em segundos; HPA escala automaticamente com
+        base em CPU, de forma independente para cada serviço.</td>
+    </tr>
+    <tr>
+      <td>Conflitos de dependência/ambiente</td>
+      <td>Cada serviço isolado em sua própria imagem Docker, sem compartilhar dependências de
+        sistema operacional.</td>
+    </tr>
+    <tr>
+      <td>Tempo de resposta para implantar/atualizar</td>
+      <td>Deploy declarativo via <code>kubectl apply</code>, com rolling update sem downtime.</td>
+    </tr>
+  </table>
+  <p style="margin-top:1.2em">
+    O mesmo padrão &mdash; Dockerfile otimizado + Deployment + Service &mdash; é replicável para
+    qualquer nova aplicação da Web Solutions, preparando o terreno para a migração completa do
+    restante do portfólio.
+  </p>
+</section>
+
+<!-- FECHAMENTO -->
+<section class="closing">
+  <h2 class="title">7. Conclusão</h2>
+  <p>
+    Esta prova de conceito demonstra, na prática, que Docker e Kubernetes resolvem as três dores
+    centrais relatadas pela Web Solutions &mdash; alocação de recursos, escalabilidade e
+    conflitos de ambiente &mdash; com uma arquitetura simples, replicável e pronta para crescer.
+  </p>
+  <div class="thanks">Nginx (8080) e Apache HTTPD (8081) rodando lado a lado no mesmo cluster.</div>
+</section>
+
+</body>
+</html>

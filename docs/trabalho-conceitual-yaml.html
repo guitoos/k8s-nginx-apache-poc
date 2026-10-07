@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Trabalho Conceitual - YAML</title>
+<style>
+  @page { size: A4; margin: 2.2cm 2cm; }
+  body {
+    font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 100%;
+  }
+  h1 {
+    font-size: 18pt;
+    text-align: center;
+    margin-bottom: 0.2em;
+    color: #0f172a;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 11pt;
+    color: #444;
+    margin-bottom: 1.6em;
+  }
+  h2 {
+    font-size: 13.5pt;
+    color: #0c4a6e;
+    border-bottom: 1.5px solid #0c4a6e;
+    padding-bottom: 2px;
+    margin-top: 1.4em;
+  }
+  p { text-align: justify; margin: 0.6em 0; }
+  code {
+    background: #f1f5f9;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 10.5pt;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 10pt;
+    overflow-x: auto;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  ol, ul { margin: 0.4em 0 0.4em 1.4em; }
+  li { margin-bottom: 0.3em; text-align: justify; }
+</style>
+</head>
+<body>
+
+<h1>YAML: Estrutura, Vantagens e sua Importância na Orquestração de Containers com Kubernetes</h1>
+<div class="subtitle">
+  Guilherme Oliveira<br>
+  Trabalho: Orquestração de Containers com Kubernetes &mdash; Desafios e Soluções no Mundo Real
+</div>
+
+<h2>1. O que é YAML</h2>
+<p>
+YAML (originalmente "Yet Another Markup Language", hoje reinterpretado como acrônimo
+recursivo "YAML Ain't Markup Language") é um formato de serialização de dados legível por
+humanos, criado para representar estruturas como mapas, listas e valores escalares de forma
+simples e sem a verbosidade de formatos como XML. É amplamente adotado como linguagem de
+configuração por ferramentas de infraestrutura como código e orquestração — Docker Compose,
+Ansible, GitHub Actions e, especialmente, o Kubernetes, que usa YAML como a forma padrão de
+descrever o estado desejado de todos os seus recursos.
+</p>
+
+<h2>2. Estrutura do YAML</h2>
+<p>
+A sintaxe do YAML é organizada em torno de indentação (espaços, nunca tabulações) para
+representar hierarquia, dispensando chaves, colchetes ou ponto-e-vírgula na maioria dos casos.
+Os elementos fundamentais são:
+</p>
+<ul>
+  <li><strong>Pares chave-valor</strong>: <code>chave: valor</code>, a unidade básica de um mapa (dicionário).</li>
+  <li><strong>Listas (sequences)</strong>: itens precedidos por hífen (<code>- item</code>), representando um array.</li>
+  <li><strong>Mapas aninhados</strong>: obtidos simplesmente indentando um bloco chave-valor dentro de outro,
+      formando estruturas hierárquicas profundas — exatamente como um manifesto Kubernetes descreve
+      <code>spec.template.spec.containers</code>.</li>
+  <li><strong>Escalares</strong>: strings, números, booleanos e nulos, podendo ser escritos sem aspas na
+      maioria dos casos.</li>
+  <li><strong>Comentários</strong>: iniciados por <code>#</code>, ignorados pelo parser — um recurso que o
+      JSON, por exemplo, não oferece nativamente.</li>
+  <li><strong>Múltiplos documentos</strong>: separados por <code>---</code> dentro do mesmo arquivo, recurso
+      usado com frequência em manifestos Kubernetes para agrupar um Deployment e seu Service num único
+      arquivo.</li>
+</ul>
+<p>Exemplo mínimo, equivalente estrutural ao usado nos manifestos deste trabalho:</p>
+<pre>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: nginx
+          image: web-solutions/nginx:1.0
+          ports:
+            - containerPort: 8080</pre>
+
+<h2>3. Vantagens do YAML</h2>
+<ul>
+  <li><strong>Legibilidade humana</strong>: a indentação força uma estrutura visual clara, facilitando
+      revisão em code review e diminuindo a chance de erro em relação a formatos com muitos símbolos.</li>
+  <li><strong>Superset do JSON</strong>: todo documento JSON válido é também um YAML válido, o que facilita
+      a interoperabilidade entre ferramentas e a migração gradual entre os dois formatos.</li>
+  <li><strong>Baixa verbosidade</strong>: comparado ao XML, elimina tags de abertura/fechamento repetidas,
+      reduzindo o tamanho dos arquivos de configuração sem perder expressividade.</li>
+  <li><strong>Suporte a comentários e âncoras</strong>: comentários documentam decisões diretamente no
+      arquivo de configuração; âncoras (<code>&amp;</code>) e referências (<code>*</code>) permitem reutilizar
+      blocos, reduzindo duplicação em manifestos grandes.</li>
+  <li><strong>Adoção como padrão de fato</strong>: por ser o formato nativo do Kubernetes, Helm, Ansible e
+      diversas pipelines de CI/CD, aprender YAML uma vez é reaproveitável em praticamente todo o
+      ecossistema de infraestrutura como código.</li>
+</ul>
+
+<h2>4. Importância do YAML na orquestração com Kubernetes</h2>
+<p>
+O Kubernetes é fundamentalmente uma API declarativa: em vez de executar comandos imperativos
+descrevendo <em>como</em> alcançar um resultado, o operador descreve <em>o estado desejado</em>
+do sistema em YAML, e o próprio Kubernetes se encarrega de convergir o estado real da
+infraestrutura para esse estado descrito. É esse contrato declarativo que torna os manifestos
+YAML "código" no sentido pleno: versionáveis em Git, revisáveis via pull request, reproduzíveis
+em qualquer cluster e auditáveis ao longo do tempo — o mesmo arquivo <code>nginx-deployment.yaml</code>
+usado neste trabalho pode ser aplicado de forma idêntica em um cluster local de testes ou em um
+cluster de produção na nuvem.
+</p>
+
+<h2>5. Passo a passo: como a automação é executada</h2>
+<ol>
+  <li><strong>Escrita do manifesto</strong>: o desenvolvedor descreve em YAML os recursos desejados
+      (<code>Deployment</code>, <code>Service</code>, etc.), como os arquivos entregues neste trabalho.</li>
+  <li><strong>Envio via <code>kubectl apply -f arquivo.yaml</code></strong>: o kubectl converte o YAML em
+      JSON e envia uma requisição HTTP para o <em>kube-apiserver</em>, o componente central do
+      control plane do Kubernetes.</li>
+  <li><strong>Validação e persistência</strong>: o API Server valida a estrutura do manifesto contra o
+      schema do recurso e, se válido, persiste o estado desejado no <em>etcd</em> — o banco de dados
+      distribuído que armazena o "estado da verdade" do cluster.</li>
+  <li><strong>Reconciliação pelos controllers</strong>: controllers (como o <em>Deployment Controller</em>)
+      observam continuamente a diferença entre o estado desejado (armazenado no etcd) e o estado
+      real do cluster, criando ou removendo <em>ReplicaSets</em> e Pods até que os dois estados
+      coincidam.</li>
+  <li><strong>Agendamento pelo Scheduler</strong>: o <em>kube-scheduler</em> escolhe em qual nó cada novo
+      Pod deve rodar, considerando recursos disponíveis (CPU/memória) e as restrições definidas no
+      manifesto (<code>resources.requests/limits</code>).</li>
+  <li><strong>Execução pelo Kubelet</strong>: em cada nó, o <em>kubelet</em> recebe a definição do Pod e
+      instrui o container runtime (containerd/Docker) a efetivamente baixar a imagem e iniciar os
+      containers, além de executar continuamente as <em>readiness</em> e <em>liveness probes</em>
+      definidas no YAML.</li>
+  <li><strong>Exposição de rede</strong>: o <em>kube-proxy</em> configura as regras de rede em cada nó para
+      que o <code>Service</code> descrito no YAML roteie o tráfego externo até os Pods corretos, com
+      base nos <code>labels</code>/<code>selector</code> definidos no manifesto.</li>
+  <li><strong>Loop contínuo de reconciliação</strong>: esse ciclo não termina após a primeira aplicação —
+      ele roda continuamente. Se um Pod falhar, o controller detecta o desvio do estado desejado e
+      recria o Pod automaticamente, sem intervenção manual, mantendo o número de réplicas declarado
+      no YAML.</li>
+</ol>
+<p>
+É esse modelo declarativo, orientado por arquivos YAML versionáveis, que permite à automação do
+Kubernetes entregar exatamente os benefícios que a Web Solutions buscava: implantações rápidas e
+repetíveis, escalabilidade sob demanda e recuperação automática de falhas — substituindo o
+processo manual e propenso a erros do modelo baseado em máquinas virtuais.
+</p>
+
+</body>
+</html>
