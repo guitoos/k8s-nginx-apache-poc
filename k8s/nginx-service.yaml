@@ -1,0 +1,21 @@
+# Expoe o Nginx externamente na porta 8080.
+# type: LoadBalancer funciona nativamente no Docker Desktop / Kind com
+# cloud-provider local (mapeia direto para localhost:8080). Em um cluster
+# real (EKS/GKE/AKS) provisionaria um Load Balancer do provedor.
+# Alternativas equivalentes: NodePort (porta 30000-32767) ou Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: web-solutions
+  labels:
+    app: nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP

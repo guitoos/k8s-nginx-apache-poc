@@ -1,0 +1,20 @@
+# Expoe o Apache HTTPD externamente na porta 8081.
+# type: LoadBalancer funciona nativamente no Docker Desktop / Kind com
+# cloud-provider local (mapeia direto para localhost:8081).
+# Alternativas equivalentes: NodePort (porta 30000-32767) ou Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-service
+  namespace: web-solutions
+  labels:
+    app: apache
+spec:
+  type: LoadBalancer
+  selector:
+    app: apache
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+      protocol: TCP

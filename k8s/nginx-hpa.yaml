@@ -1,0 +1,22 @@
+# Bonus: escalabilidade automatica e independente do Nginx.
+# Requer o metrics-server instalado no cluster. Nao e ativado por padrao
+# na entrega, mas demonstra como o ambiente esta preparado para crescer.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+  namespace: web-solutions
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

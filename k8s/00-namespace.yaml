@@ -1,0 +1,9 @@
+# Namespace dedicado isola os recursos da POC do restante do cluster,
+# facilitando limpeza, RBAC e futura convivencia com outras aplicacoes
+# da Web Solutions no mesmo cluster.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: web-solutions
+  labels:
+    project: web-solutions-poc
